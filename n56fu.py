@@ -13,8 +13,8 @@
 
 import sys, os, time
 
-__version__ = '1.0 b2'
-__date__ = '24/05/24 22:10'
+__version__ = '1.0 b4'
+__date__ = '28/05/24 08:52'
 
 
 try:
@@ -42,6 +42,34 @@ class N56FU(serial.Serial):
                 1:'Fahrenheit',
                 0:'Duty Cyle'}
 
+    @classmethod
+    def find_ports(cls) -> list:
+        """Discover ports for connected N56FU meters"""
+        ports = []
+        devs = os.listdir('/dev')
+        for n in range(10):
+            port = f'ttyUSB{n}'
+            dev = f'/dev/{port}'
+            if os.path.exists(dev):
+                if N56FU.try_port(dev):
+                    ports.append(port)
+        return ports
+
+    @classmethod
+    def try_port(cls, dev) -> bool:
+        """Looks for meter data on a possible port"""
+        tty = serial.Serial(port=dev, baudrate=2400, timeout=2)
+        timeout = time.time() + tty.timeout
+        while time.time() < timeout and tty.in_waiting < 14:
+            pass
+        if not tty.in_waiting:
+            tty.close()
+            return False
+        line = tty.read_until(b'\r\n')
+        tty.close()
+        if len(line) == 14 and line[0] in [43, 45]:
+            return True
+        return False
 
     def __init__(self, port):
         device = f'/dev/{port}'
@@ -155,8 +183,13 @@ class N56FU(serial.Serial):
 if __name__ == '__main__':
     print(f'\n  Module: n56fu v{__version__}, {__date__}  ~ Brian Swatton\n')
     print('  For reading the N56FU USB multimeter.')
-    print('  Intended for import, but have some readings...\n')
+    print('  Intended for import.\n')
 
-    m = N56FU('ttyUSB0')
-    while True:
-        print(m.get_reading())
+    ports = N56FU.find_ports()
+
+    if ports:
+        m = N56FU(ports[0])
+        while True:
+            print(m.get_reading())
+    else:
+        print('No meter found\n')

@@ -1,0 +1,10 @@
+
+    N56FU Changelog
+    ~~~~~~~~~~~~~~~
+
+
+28/05/24 v1.0 b4
+~~~~~~~~~~~~~~~~
+Added find_ports() class method. Returns a list of ports
+where an N56FU meter in USB mode was found.
+
