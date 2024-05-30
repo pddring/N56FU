@@ -2,6 +2,11 @@
     N56FU Changelog
     ~~~~~~~~~~~~~~~
 
+30/05/24 v1.0 b5
+~~~~~~~~~~~~~~~~
+Added is_set(function: str, modes: list) -> bool
+To confirm or deny a desired meter setup
+
 
 28/05/24 v1.0 b4
 ~~~~~~~~~~~~~~~~

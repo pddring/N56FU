@@ -1,7 +1,7 @@
 # N56FU
 Python module for reading the N56FU multimeter
 
-    n56fu   v1.0 b4  (beta)
+    n56fu   v1.0 b5  (beta)
 
     Python module for reading data from the
     Precision Gold N56FU mulitmeter.
@@ -31,12 +31,13 @@ I would import with the line:
     from n56fu import N56FU
 
 It contains just one class, 'N56FU', which inherits from
-pyserial's serial.Serial() class. It has three methods for the
+pyserial's serial.Serial() class. It has four methods for the
 module user
 
 	find_ports()
 	get_reading()
 	get_state()
+    is_set(function, modes)
 
 Pass N56FU the port name, probably 'ttyUSB0', and it will return an
 open a connection to it if it can.
@@ -67,6 +68,13 @@ programmer friendly form:
     value       float of the value without mulitplier, in units
     units       string, 'V', 'A', 'Hz' etc
     bargraph    int for bargraph (not exactly tested yet!)
+
+
+is_set() can be used to confirm or deny a desired set up, ie
+
+    meter.is_set('Voltage', ['auto','ac'])
+
+will return True if set so.
 
 
 #### flush=True

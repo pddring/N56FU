@@ -13,8 +13,8 @@
 
 import sys, os, time
 
-__version__ = '1.0 b4'
-__date__ = '28/05/24 08:52'
+__version__ = '1.0 b5'
+__date__ = '30/05/24 21:58'
 
 
 try:
@@ -173,6 +173,21 @@ class N56FU(serial.Serial):
         state['bargraph'] = status[4]
 
         return state
+
+
+    def is_set(self, function: str, modes: list) -> bool:
+        """Confirms or denies a setting of function with modes"""
+        lc_modes = [ mode.lower() for mode in modes]
+        state = self.get_state()
+        if state['function'].lower() != function.lower():
+            return False
+        for mode in lc_modes:
+            if mode not in state['modes']:
+                return False
+        for mode in state['modes']:
+            if mode not in lc_modes:
+                return False
+        return True
 
 # End of N56FU class
 
