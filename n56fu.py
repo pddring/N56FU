@@ -14,7 +14,7 @@
 import sys, os, time
 
 __version__ = '1.0 b5'
-__date__ = '30/05/24 21:58'
+__date__ = '30/05/24 22:12'
 
 
 try:
@@ -175,10 +175,10 @@ class N56FU(serial.Serial):
         return state
 
 
-    def is_set(self, function: str, modes: list) -> bool:
+    def is_set(self, function: str, modes: list, flush: bool =True) -> bool:
         """Confirms or denies a setting of function with modes"""
         lc_modes = [ mode.lower() for mode in modes]
-        state = self.get_state()
+        state = self.get_state(flush)
         if state['function'].lower() != function.lower():
             return False
         for mode in lc_modes:
