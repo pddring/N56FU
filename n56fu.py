@@ -12,6 +12,7 @@
 
 
 import sys, os, time
+import logging
 
 __version__ = '1.0 b5'
 __date__ = '30/05/24 22:12'
@@ -46,30 +47,37 @@ class N56FU(serial.Serial):
     @classmethod
     def find_ports(cls) -> list:
         """Discover ports for connected N56FU meters"""
+        logging.debug("Looking for ports")
         ports = []
         for port in serial.tools.list_ports.comports():
             device = port.device
-            print(f"Found port {device}")
+            logging.debug(f"Found port {device}")
             if N56FU.try_port(device):
-                print(f"Port {device} is an N56FU")
+                logging.debug(f"Port {device} is an N56FU")
                 ports.append(device)
         return ports
 
     @classmethod
     def try_port(cls, dev) -> bool:
         """Looks for meter data on a possible port"""
-        tty = serial.Serial(port=dev, baudrate=2400, timeout=2)
-        timeout = time.time() + tty.timeout
-        while time.time() < timeout and tty.in_waiting < 14:
-            pass
-        if not tty.in_waiting:
+        try:
+            logging.debug(f"Testing port {dev}")
+            tty = serial.Serial(port=dev, baudrate=2400, timeout=2)
+            timeout = time.time() + tty.timeout
+            while time.time() < timeout and tty.in_waiting < 14:
+                pass
+            if not tty.in_waiting:
+                tty.close()
+                return False
+            line = tty.read_until(b'\r\n')
             tty.close()
+            if len(line) == 14 and line[0] in [43, 45]:
+                logging.debug(f"Found an N56FU on port {dev}")
+                return True
             return False
-        line = tty.read_until(b'\r\n')
-        tty.close()
-        if len(line) == 14 and line[0] in [43, 45]:
-            return True
-        return False
+        except serial.SerialException as Error:
+            logging.error(f"An error ocurred whilst testing port {dev}: {Error}")
+            return False
 
     def __init__(self, port):
         super().__init__()
@@ -195,6 +203,8 @@ if __name__ == '__main__':
     print(f'\n  Module: n56fu v{__version__}, {__date__}  ~ Brian Swatton\n')
     print('  For reading the N56FU USB multimeter.')
     print('  Intended for import.\n')
+
+    #logging.basicConfig(level=logging.DEBUG)
 
     ports = N56FU.find_ports()
 
