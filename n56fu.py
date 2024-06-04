@@ -9,13 +9,14 @@
 #   Use or modify freely.
 
 #   Brian Swatton, May 2024
+#   Windows update by Ian Cass, June 2024
 
 
 import sys, os, time
 import logging
 
-__version__ = '1.0 b5'
-__date__ = '30/05/24 22:12'
+__version__ = '1.0 b6'
+__date__ = '04/06/24 22:00'
 
 
 try:
