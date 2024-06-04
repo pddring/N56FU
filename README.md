@@ -1,15 +1,15 @@
 # N56FU
 Python module for reading the N56FU multimeter
 
-    n56fu   v1.0 b5  (beta)
+    n56fu   v1.0 b6  (beta)
 
     Python module for reading data from the
     Precision Gold N56FU mulitmeter.
 
-    Linux only currently
+    Linux and Windows
 
     By Brian Swatton, May 2024
-
+       Windows compabitibilty - Ian Cass
 
 Please Note:
 No data was available to write this, it was reverse engineered

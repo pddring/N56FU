@@ -2,6 +2,12 @@
     N56FU Changelog
     ~~~~~~~~~~~~~~~
 
+
+04/06/24 v1.0 b6
+~~~~~~~~~~~~~~~~
+Now works with Windows, thanks to Ian Cass
+
+
 30/05/24 v1.0 b5
 ~~~~~~~~~~~~~~~~
 Added is_set(function: str, modes: list) -> bool
