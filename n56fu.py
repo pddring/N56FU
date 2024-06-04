@@ -19,6 +19,7 @@ __date__ = '30/05/24 22:12'
 
 try:
     import serial
+    import serial.tools.list_ports
 except ImportError as impErr:
     print(f"[Error]: Failed to import - {impErr.args[0]}")
     print('\n !  This program requires the python module "pyserial"')
@@ -46,13 +47,12 @@ class N56FU(serial.Serial):
     def find_ports(cls) -> list:
         """Discover ports for connected N56FU meters"""
         ports = []
-        devs = os.listdir('/dev')
-        for n in range(10):
-            port = f'ttyUSB{n}'
-            dev = f'/dev/{port}'
-            if os.path.exists(dev):
-                if N56FU.try_port(dev):
-                    ports.append(port)
+        for port in serial.tools.list_ports.comports():
+            device = port.device
+            print(f"Found port {device}")
+            if N56FU.try_port(device):
+                print(f"Port {device} is an N56FU")
+                ports.append(device)
         return ports
 
     @classmethod
@@ -72,12 +72,8 @@ class N56FU(serial.Serial):
         return False
 
     def __init__(self, port):
-        device = f'/dev/{port}'
-        if not os.path.exists(device):
-            print(f'\n! Port \'{port}\' does not exist !\n')
-            sys.exit(2)
         super().__init__()
-        self.port = device
+        self.port = port
         self.baudrate = 2400
         self.timeout = 2
         self.open()
