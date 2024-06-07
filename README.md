@@ -1,7 +1,7 @@
 # N56FU
 Python module for reading the N56FU multimeter
 
-    n56fu   v1.0 b6  (beta)
+    n56fu   v1.0 b7 (beta), 7th June 2024
 
     Python module for reading data from the
     Precision Gold N56FU mulitmeter.

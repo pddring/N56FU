@@ -15,8 +15,8 @@
 import sys, os, time
 import logging
 
-__version__ = '1.0 b6'
-__date__ = '04/06/24 22:00'
+__version__ = '1.0 b7'
+__date__ = '07/06/24 19:13'
 
 
 try:
@@ -61,6 +61,8 @@ class N56FU(serial.Serial):
     @classmethod
     def try_port(cls, dev) -> bool:
         """Looks for meter data on a possible port"""
+        if sys.platform == 'linux' and dev[:11] != '/dev/ttyUSB':
+            return False
         try:
             logging.debug(f"Testing port {dev}")
             tty = serial.Serial(port=dev, baudrate=2400, timeout=2)

@@ -3,6 +3,11 @@
     ~~~~~~~~~~~~~~~
 
 
+07/06/24 v1.0 b7
+~~~~~~~~~~~~~~~~
+Skips checking non-USB serial ports with linux
+
+
 04/06/24 v1.0 b6
 ~~~~~~~~~~~~~~~~
 Now works with Windows, thanks to Ian Cass
