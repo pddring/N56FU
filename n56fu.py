@@ -15,8 +15,8 @@
 import sys, os, time
 import logging
 
-__version__ = '1.0 b7'
-__date__ = '07/06/24 19:13'
+__version__ = '1.0 b8'
+__date__ = '09/06/24 14:16'
 
 
 try:
@@ -152,7 +152,11 @@ class N56FU(serial.Serial):
         if raw[0] == '!':
             return raw
         status = raw[7:-2]
-        state = {}
+
+        idport = self.port.split('/dev/')[1] if sys.platform == 'linux' else self.port
+        self.id = f'n56fu-{idport}'
+        state = { 'id':self.id, 'info':''}
+
         state['display'] = self._display(raw)
         state['function'] = N56FU.function[status[3]]
         state['modes'] = []
@@ -214,6 +218,6 @@ if __name__ == '__main__':
     if ports:
         m = N56FU(ports[0])
         while True:
-            print(m.get_reading())
+            print(f'  {m.get_reading()}\r', end='')
     else:
         print('No meter found\n')

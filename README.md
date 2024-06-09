@@ -1,14 +1,14 @@
 # N56FU
 Python module for reading the N56FU multimeter
 
-    n56fu   v1.0 b7 (beta), 7th June 2024
+    n56fu   v1.0 b8 (beta), 9th June 2024
 
     Python module for reading data from the
     Precision Gold N56FU mulitmeter.
 
     Linux and Windows
 
-    By Brian Swatton, May 2024
+    By Brian Swatton, June 2024
        Windows compabitibilty - Ian Cass
 
 Please Note:
@@ -32,12 +32,13 @@ I would import with the line:
 
 It contains just one class, 'N56FU', which inherits from
 pyserial's serial.Serial() class. It has four methods for the
-module user
+module user:
 
 	find_ports()
 	get_reading()
 	get_state()
     is_set(function, modes)
+
 
 Pass N56FU the port name, probably 'ttyUSB0', and it will return an
 open a connection to it if it can.
@@ -61,6 +62,8 @@ to have a human readable string returned, or
 will give a dictionary back with all the information in a more
 programmer friendly form:
 
+    id          string identifying meter type and port
+    info        empty string for the N56FU
     display     string reflecting the main digit display
     function    string, 'Voltage', 'Current' etc.
     modes       list of strings of modes, ie 'ac' 'hold' etc.
@@ -69,9 +72,10 @@ programmer friendly form:
     units       string, 'V', 'A', 'Hz' etc
     bargraph    int for bargraph (not exactly tested yet!)
 
+"id" is also available as an instance variable, ie, meter.id
 
-is_set() can be used to confirm or deny a desired set up, ie
-
+The is_set() method can be used to confirm or deny a desired set up,
+ie:
     meter.is_set('Voltage', ['auto','ac'])
 
 will return True if set so.
@@ -95,7 +99,6 @@ or just
 
 #### Multiple Meters
 
-
 It should be possible to open multiple connections to meters
 on different ports, but this as yet untested.  ie
 
@@ -103,20 +106,14 @@ on different ports, but this as yet untested.  ie
     m2 = N56FU('ttyUSb1')
 
 
-Collaboration
-
+#### Collaboration
 
 I've really just put this module here to make it available for
 use, as I saw a number of posts looking for something like it
 when researching the meter.
 
 If you have something you'd like to contribute to the project, I
-am open to suggestion for improvement. I am a total noob with
-online software collaboration. I have been using git as a solo
-coder for a few years though. I've not got on well with getting
-ssh working again with github since a drive crash though. 
-
-I've been coding since 1979, for work and hobby (electronics,
-business admin). Usually programs for just me to use, though this
-is changing.
+am open to suggestion for improvement. I am a bit of a noob with
+github software collaboration, as a glance at the commit history
+will demonstrate.
 
