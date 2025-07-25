@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>N56FU Multimeter Reading</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1>N56FU Multimeter Reading</h1>
+        <div id="reading">---</div>
+        <div id="last-updated">
+            <span class="label">Last updated:</span>
+            <span class="value">---</span>
+        </div>
+
+        <script>
+            $(()=> {
+                var c = 0;
+                setInterval(() => {
+                    $.getJSON('value', (data) => {
+                        let date = new Date(Date.now());
+                        $("#reading").html(data);
+                        $("#last-updated .value").html(date.toString());
+                    });
+                    
+                }, 500);
+            });
+        </script>
+        
+    </body>
+</html>
